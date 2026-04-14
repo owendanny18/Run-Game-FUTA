@@ -1,6 +1,7 @@
 {
   "name": "FUTA Campus Runner",
   "short_name": "FUTA Runner",
+  "description": "An endless 2D runner game. Dodge obstacles and dash to the finish line.",
   "start_url": "./index.html",
   "display": "fullscreen",
   "background_color": "#1a1a2e",
@@ -8,15 +9,15 @@
   "orientation": "landscape",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "./icon-192.png.JPG",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "./icon-512.png.JPG",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     }
   ]
