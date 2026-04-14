@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUTA Campus Runner</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f1c40f">
+    <link rel="apple-touch-icon" href="icon-192.png">
+</head>
+
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+
+        <div id="ui-layer">
+            <div id="score-display">
+                <button id="btn-pause" class="icon-btn">⏸️</button>
+                Lives: ❤️<span id="lives-val">3</span> | Score: <span id="score-val">0</span> | High Score: <span id="hi-score-val">0</span>
+            </div>
+
+            <div id="start-screen" class="screen active">
+                <div class="content-box">
+                    <h1>FUTA Runner</h1>
+                    <div class="subtitle">Late for lectures at SAAT? Better run!</div>
+                    <div class="instructions">
+                        <div class="control-key"><span>SPACE</span> or <span>UP</span> to Jump</div>
+                        <div class="control-key"><span>DOWN</span> to Duck under Signboards</div>
+                        <p>Dodge Kekes, Shuttles, and Potholes along the way.</p>
+                    </div>
+                    <button id="start-btn" class="btn pulse">Start Running</button>
+                    <div class="credits">Built for a FUTA Student</div>
+                </div>
+            </div>
+
+            <div id="mobile-controls">
+                <button id="btn-duck" class="control-btn">⬇<br>DUCK</button>
+                <button id="btn-jump" class="control-btn">⬆<br>JUMP</button>
+            </div>
+
+            <div id="pause-screen" class="screen">
+                <div class="content-box">
+                    <h2>PAUSED</h2>
+                    <p class="flavor-text">Taking a short break?</p>
+                    <button id="resume-btn" class="btn pulse">Resume Running</button>
+                </div>
+            </div>
+
+            <div id="game-over-screen" class="screen">
+                <div class="content-box">
+                    <h2>Game Over!</h2>
+                    <p class="flavor-text" id="game-over-reason">You tripped on campus!</p>
+
+                    <div class="stats-board">
+                        <div class="stat">
+                            <span class="label">Score</span>
+                            <span class="value" id="final-score">0</span>
+                        </div>
+                    </div>
+
+                    <button id="restart-btn" class="btn">Try Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="background.js"></script>
+    <script src="obstacle.js"></script>
+    <script src="player.js"></script>
+    <script src="game.js"></script>
+    <script src="main.js"></script>
+
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js').catch(err => {
+            console.log('Service Worker registration failed: ', err);
+          });
+        });
+      }
+    </script>
+</body>
+
+</html>
