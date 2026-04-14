@@ -1,4 +1,4 @@
-const CACHE_NAME = 'futa-runner-v2';
+const CACHE_NAME = 'futa-runner-v3';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -9,8 +9,8 @@ const ASSETS_TO_CACHE = [
   './background.js',
   './main.js',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png'
+  './icon-192.png.JPG',
+  './icon-512.png.JPG'
 ];
 
 self.addEventListener('install', (event) => {
