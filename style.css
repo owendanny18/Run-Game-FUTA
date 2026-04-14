@@ -1,0 +1,311 @@
+:root {
+    --primary: #4a235a;
+    /* FUTA Purple */
+    --accent: #f1c40f;
+    /* FUTA Gold */
+    --text-color: #ffffff;
+    --bg-overlay: rgba(30, 15, 40, 0.85);
+    --border-radius: 12px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+body {
+    background-color: #1a1a2e;
+    /* Dark fallback background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-color);
+    touch-action: none; /* Absolutely eliminates any mobile browser click delay / panning */
+}
+
+#game-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 100%;
+    max-height: 500px;
+    background: #87CEEB;
+    /* Base sky color */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+/* Ensure the canvas fills the container */
+#gameCanvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: crisp-edges;
+}
+
+/* UI Overlays */
+#ui-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Let clicks pass through to canvas if needed, but reactivate on screens */
+}
+
+#score-display {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    color: #fff;
+    text-shadow: 2px 2px 0px #000;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon-btn {
+    background: rgba(241, 196, 15, 0.4);
+    border: 2px solid rgba(241, 196, 15, 0.8);
+    border-radius: 8px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px 12px;
+    transition: transform 0.1s;
+    backdrop-filter: blur(2px);
+    pointer-events: auto;
+}
+.icon-btn:active {
+    background: rgba(241, 196, 15, 0.7);
+    transform: scale(0.9);
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-overlay);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 20;
+    pointer-events: auto;
+    /* Catch clicks */
+}
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.content-box {
+    background: linear-gradient(135deg, var(--primary), #2c1635);
+    border: 4px solid var(--accent);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    max-width: 80%;
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+h1 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 26px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+    line-height: 1.6;
+    letter-spacing: 4px; /* Increased font spacing! */
+}
+
+h2 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 24px;
+    color: #e74c3c;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.subtitle {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #ecf0f1;
+}
+
+.instructions {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    font-size: 16px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+}
+
+.control-key {
+    margin: 8px 0;
+}
+
+.control-key span {
+    display: inline-block;
+    background: #ecf0f1;
+    color: #2c3e50;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: monospace;
+    box-shadow: 0 3px 0 #bdc3c7;
+}
+
+.stats-board {
+    margin: 20px 0;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.stat .value {
+    color: var(--accent);
+    font-family: 'Press Start 2P', cursive;
+    font-size: 18px;
+}
+
+.flavor-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.btn {
+    background: var(--accent);
+    color: var(--primary);
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-family: 'Press Start 2P', cursive;
+    cursor: pointer;
+    border-radius: 6px;
+    box-shadow: 0 6px 0px #b7950b;
+    transition: transform 0.1s, box-shadow 0.1s, background-color 0.2s;
+    text-transform: uppercase;
+}
+
+.btn:hover {
+    background: #f4d03f;
+    transform: translateY(2px);
+    box-shadow: 0 4px 0px #b7950b;
+}
+
+.btn:active {
+    transform: translateY(6px);
+    box-shadow: 0 0px 0px #b7950b;
+}
+
+.btn.pulse {
+    animation: pulse 2s infinite;
+}
+
+.credits {
+    margin-top: 20px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 6px 0px #b7950b, 0 0 0 0 rgba(241, 196, 15, 0.7);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 0px #b7950b, 0 0 0 10px rgba(241, 196, 15, 0);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 6px 0px #b7950b, 0 0 0 0 rgba(241, 196, 15, 0);
+    }
+}
+
+/* Disable touch highlight on mobiles */
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Mobile Controls */
+#mobile-controls {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    right: 25px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 15;
+    pointer-events: none;
+}
+
+.control-btn {
+    pointer-events: auto;
+    background: rgba(241, 196, 15, 0.4);
+    border: 3px solid rgba(241, 196, 15, 0.8);
+    color: white;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 10px;
+    padding: 10px;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    transition: transform 0.1s, background 0.1s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    line-height: 1.5;
+}
+
+.control-btn:active {
+    background: rgba(241, 196, 15, 0.7);
+    transform: scale(0.9);
+}
